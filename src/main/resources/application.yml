@@ -1,0 +1,57 @@
+#Application
+app:
+  home: '.'
+  config: '.'
+
+ 
+
+server:
+  port: 8081
+  tomcat:
+    access-log-enabled: true
+    access-log-pattern: "%h %l %u %t '%r' %s %b %D"
+#    basedir: /tmp/tomcat
+
+    
+# MySQL & Database connection properties
+spring:
+  datasource:
+    driverClassName: 'org.gjt.mm.mysql.Driver'
+    url: 'jdbc:mysql://172.16.1.40:3306/smartinvoice'
+    username: 'smartinvoice'
+    password: 'smartinvoice'
+    testWhileIdle: true
+    validationQuery: 'SELECT 1'
+    tomcat:
+      max-wait: 20000
+      max-active: 50
+      max-idle: 20
+      min-idle: 15
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        id:
+          new_generator_mappings: true
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  jackson:
+    default-property-inclusion: NON_NULL
+
+ 
+#Actuator Config for custom endpoints
+management:
+  endpoints:
+    web:
+      base-path: /sample/health/
+      expose: 
+        include: "*"
+      exclude: 'beans,conditions'
+  endpoint:
+    health:
+      show-details: always
+    httptrace:
+      show-details: always
